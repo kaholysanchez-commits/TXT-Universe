@@ -4,9 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tomorrow X Together | Blog MOA</title>
-    <!-- Fonte moderna do Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Temas inspirados nas cores do Moabong */
+        :root {
+            --bg-gradient: linear-gradient(135deg, #d4e7fa 0%, #e9d8fd 100%);
+            --header-gradient: linear-gradient(135deg, #7fb3e6, #b69ef2);
+            --card-bg: rgba(255, 255, 255, 0.92);
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --title-color: #1e3a5f;
+            --accent: #6aa6e8;
+            --tag-bg: #e6f0fa;
+            --tag-text: #3b76b0;
+            --shadow: 0 10px 28px rgba(127, 179, 230, 0.22);
+        }
+
+        body.theme-magic {
+            --bg-gradient: linear-gradient(135deg, #f3e8ff 0%, #fce7f3 50%, #e0e7ff 100%);
+            --header-gradient: linear-gradient(135deg, #a855f7, #ec4899);
+            --accent: #c084fc;
+            --tag-bg: #f3e8ff;
+            --tag-text: #7e22ce;
+            --shadow: 0 10px 28px rgba(192, 132, 252, 0.25);
+        }
+
+        body.theme-concert {
+            --bg-gradient: linear-gradient(135deg, #090d16 0%, #17203a 55%, #1e1b4b 100%);
+            --header-gradient: linear-gradient(135deg, #1d4ed8, #6d28d9);
+            --card-bg: rgba(23, 32, 58, 0.88);
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --title-color: #7dd3fc;
+            --accent: #38bdf8;
+            --tag-bg: rgba(56, 189, 248, 0.16);
+            --tag-text: #7dd3fc;
+            --shadow: 0 10px 30px rgba(56, 189, 248, 0.25);
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -15,64 +50,470 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            /* Fundo degradê nas cores do TXT (azul e lilás pastel) */
-            background: linear-gradient(135deg, #d4e7fa 0%, #e9d8fd 100%);
-            color: #1e293b;
+            background: var(--bg-gradient);
+            color: var(--text-main);
             min-height: 100vh;
-            padding: 24px 16px;
+            padding: 24px 16px 40px;
+            transition: background 0.5s ease, color 0.3s ease;
+            overflow-x: hidden;
         }
 
+        /* Fundo estrelado */
+        .sky-bg {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-star {
+            position: absolute;
+            color: #ffffff;
+            animation: pulseStar 3s infinite ease-in-out;
+            user-select: none;
+        }
+
+        @keyframes pulseStar {
+            0%, 100% { opacity: 0.25; transform: scale(0.8); }
+            50% { opacity: 0.95; transform: scale(1.25); }
+        }
+
+        /* Rastro mágico do mouse */
+        .cursor-sparkle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            font-size: 14px;
+            animation: fadeSparkle 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeSparkle {
+            0% { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); }
+            100% { opacity: 0; transform: translateY(-22px) scale(0.4) rotate(45deg); }
+        }
+
+        header, main, footer {
+            position: relative;
+            z-index: 1;
+            max-width: 840px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Cabeçalho */
         header {
-            background: linear-gradient(135deg, #8ab8e6, #ACC8E5);
+            background: var(--header-gradient);
             color: #ffffff;
             text-align: center;
-            max-width: 800px;
-            margin: 0 auto 24px auto;
-            padding: 32px 20px;
-            border-radius: 20px;
-            box-shadow: 0 8px 20px rgba(138, 184, 230, 0.35);
+            margin-bottom: 24px;
+            padding: 28px 20px;
+            border-radius: 26px;
+            box-shadow: var(--shadow);
+        }
+
+        .moabong-bar {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+        }
+
+        .moabong-btn {
+            background: rgba(255, 255, 255, 0.22);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            padding: 5px 13px;
+            border-radius: 999px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+            backdrop-filter: blur(6px);
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .moabong-btn:hover, .moabong-btn.active {
+            background: #ffffff;
+            color: #1e3a5f;
+            transform: translateY(-2px);
         }
 
         header h1 {
-            font-size: 2rem;
+            font-size: 2.1rem;
             letter-spacing: 1px;
-            text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 8px;
+            text-shadow: 1px 2px 8px rgba(0, 0, 0, 0.14);
+            margin-bottom: 6px;
         }
 
         header p {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             opacity: 0.95;
         }
 
-        main {
-            max-width: 800px;
-            margin: 0 auto;
+        /* Painel Criativo: Photocard MOA + CD Player + Pote de Estrelas */
+        .creative-hub {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 18px;
+            margin-bottom: 24px;
         }
 
-        /* Estilo de cartão para o post */
-        .post-card {
-            background-color: #ffffff;
+        .side-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border-radius: 22px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+        }
+
+        .section-label {
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--tag-text);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Photocard Holográfico 3D */
+        .photocard-wrapper {
+            perspective: 900px;
+        }
+
+        .moa-photocard {
+            position: relative;
+            background: linear-gradient(135deg, #e0f2fe 0%, #f3e8ff 50%, #fce7f3 100%);
+            color: #1e293b;
+            border-radius: 18px;
+            padding: 18px;
+            border: 3px solid #ffffff;
+            box-shadow: 0 12px 24px rgba(100, 116, 139, 0.18);
+            transition: transform 0.15s ease;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        /* Brilho arco-íris holográfico */
+        .moa-photocard::after {
+            content: "";
+            position: absolute;
+            inset: -50%;
+            background: linear-gradient(
+                115deg,
+                transparent 35%,
+                rgba(255, 255, 255, 0.65) 50%,
+                transparent 65%
+            );
+            transform: rotate(20deg) translateX(-100%);
+            transition: transform 0.6s ease;
+            pointer-events: none;
+        }
+
+        .moa-photocard:hover::after {
+            transform: rotate(20deg) translateX(100%);
+        }
+
+        .pc-badge {
+            display: inline-block;
+            background: #1e3a5f;
+            color: #ffffff;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 999px;
+            margin-bottom: 8px;
+        }
+
+        .pc-avatar {
+            font-size: 3rem;
+            line-height: 1.1;
+            margin: 4px 0;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+        }
+
+        .pc-bias-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #1e3a5f;
+        }
+
+        .pc-quote {
+            font-size: 0.8rem;
+            color: #475569;
+            margin: 4px 0 12px;
+        }
+
+        .bias-selector {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .bias-chip {
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid #cbd5e1;
+            color: #1e3a5f;
+            border-radius: 999px;
+            padding: 4px 9px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.74rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .bias-chip.active, .bias-chip:hover {
+            background: #1e3a5f;
+            color: #ffffff;
+            border-color: #1e3a5f;
+        }
+
+        /* CD Player Retrô */
+        .cd-player {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .cd-disc {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: conic-gradient(#93c5fd, #e9d5ff, #fbcfe8, #bae6fd, #93c5fd);
+            border: 3px solid #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+            position: relative;
+            flex-shrink: 0;
+            animation: spinCD 5s linear infinite;
+            animation-play-state: paused;
+        }
+
+        .cd-disc.spinning {
+            animation-play-state: running;
+        }
+
+        .cd-disc::after {
+            content: "";
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: var(--card-bg);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 2px solid #94a3b8;
+        }
+
+        @keyframes spinCD {
+            100% { transform: rotate(360deg); }
+        }
+
+        .cd-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .cd-title {
+            font-weight: 700;
+            font-size: 0.92rem;
+            color: var(--title-color);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .cd-lyric {
+            font-size: 0.76rem;
+            color: var(--text-muted);
+        }
+
+        .cd-controls {
+            display: flex;
+            gap: 6px;
+        }
+
+        .cd-btn {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            border: none;
+            background: var(--tag-bg);
+            color: var(--tag-text);
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .cd-btn:hover {
+            background: var(--accent);
+            color: #ffffff;
+            transform: scale(1.1);
+        }
+
+        /* Pote de Desejos Estelares */
+        .wish-form {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .wish-form input {
+            flex: 1;
+            padding: 8px 12px;
+            border-radius: 999px;
+            border: 1.5px solid var(--accent);
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.8rem;
+            background: rgba(255, 255, 255, 0.95);
+            color: #1e293b;
+        }
+
+        .wish-form button {
+            background: var(--accent);
+            color: #ffffff;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 999px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .star-jar-box {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            max-height: 76px;
+            overflow-y: auto;
+        }
+
+        .wish-star-pill {
+            background: var(--tag-bg);
+            color: var(--tag-text);
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 999px;
+            animation: popIn 0.3s ease;
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.7); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* Criar Novo Post */
+        .composer-box {
+            margin-bottom: 22px;
+        }
+
+        .btn-new-post {
+            width: 100%;
+            background: var(--card-bg);
+            color: var(--title-color);
+            border: 2px dashed var(--accent);
+            padding: 14px;
+            border-radius: 18px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 0.94rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-new-post:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .composer-form {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            background: var(--card-bg);
+            padding: 20px;
             border-radius: 20px;
+            margin-top: 12px;
+            box-shadow: var(--shadow);
+        }
+
+        .composer-form.open {
+            display: flex;
+        }
+
+        .composer-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .composer-form input,
+        .composer-form select,
+        .composer-form textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 12px;
+            border: 1.5px solid var(--accent);
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.88rem;
+            background: rgba(255, 255, 255, 0.95);
+            color: #1e293b;
+        }
+
+        .btn-submit-post {
+            align-self: flex-end;
+            background: var(--header-gradient);
+            color: #ffffff;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 999px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Cartões de Post (Estilo aprimorado do seu original) */
+        .posts-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .post-card {
+            background-color: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 22px;
             padding: 24px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+            box-shadow: var(--shadow);
             display: flex;
             align-items: center;
             gap: 24px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
         }
 
         .post-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 12px 28px rgba(138, 184, 230, 0.3);
         }
 
         .post-card img {
-            width: 140px;
-            height: 140px;
-            object-fit: cover; /* Evita que a imagem fique esticada */
-            border-radius: 16px;
-            border: 4px solid #ACC8E5;
+            width: 145px;
+            height: 145px;
+            object-fit: cover;
+            border-radius: 18px;
+            border: 4px solid var(--accent);
             flex-shrink: 0;
         }
 
@@ -81,37 +522,51 @@
             flex: 1;
         }
 
+        .post-meta-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+
         .tag {
             display: inline-block;
-            background-color: #e6f0fa;
-            color: #3b76b0;
+            background-color: var(--tag-bg);
+            color: var(--tag-text);
             font-size: 0.75rem;
             font-weight: 600;
             padding: 4px 12px;
             border-radius: 999px;
-            margin-bottom: 8px;
+        }
+
+        .mood-pill {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 500;
         }
 
         .post-conteudo h2 {
-            color: #1e3a5f;
+            color: var(--title-color);
             margin-bottom: 4px;
         }
 
         .artigo-autor {
             font-weight: 600;
             font-size: 0.85rem;
-            color: #64748b;
+            color: var(--text-muted);
             margin-bottom: 12px;
         }
 
         .post-texto {
-            line-height: 1.6;
-            color: #334155;
+            line-height: 1.65;
+            color: var(--text-main);
             margin-bottom: 16px;
         }
 
-        /* Botão de curtir */
         .btn-like {
+            position: relative;
             background-color: #fff0f3;
             color: #e11d48;
             border: 2px solid #fecdd3;
@@ -129,23 +584,39 @@
 
         .btn-like:hover {
             background-color: #ffe4e6;
-            transform: scale(1.05);
+            transform: scale(1.06);
         }
 
         .btn-like:active {
-            transform: scale(0.95);
+            transform: scale(0.94);
+        }
+
+        .burst-heart {
+            position: absolute;
+            pointer-events: none;
+            font-size: 1.1rem;
+            animation: floatBurst 0.85s ease-out forwards;
+        }
+
+        @keyframes floatBurst {
+            0% { opacity: 1; transform: translate(0, 0) scale(0.8); }
+            100% { opacity: 0; transform: translate(var(--dx), -42px) scale(1.3); }
         }
 
         footer {
             text-align: center;
-            max-width: 800px;
-            margin: 32px auto 0 auto;
-            color: #475569;
+            margin-top: 34px;
+            color: var(--text-muted);
             font-size: 0.85rem;
         }
 
-        /* Ajuste automático para telas de celular */
-        @media (max-width: 600px) {
+        @media (max-width: 680px) {
+            .creative-hub {
+                grid-template-columns: 1fr;
+            }
+            .composer-row {
+                flex-direction: column;
+            }
             .post-card {
                 flex-direction: column;
                 text-align: center;
@@ -153,41 +624,379 @@
             .post-conteudo {
                 text-align: center;
             }
+            .post-meta-top {
+                justify-content: center;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Céu estrelado -->
+    <div class="sky-bg" id="skyBg"></div>
+
     <header>
+        <!-- Seletor de cores do Moabong -->
+        <div class="moabong-bar">
+            <button class="moabong-btn active" data-theme="">🩵 Azul Celeste</button>
+            <button class="moabong-btn" data-theme="theme-magic">💜 Roxo Encantado</button>
+            <button class="moabong-btn" data-theme="theme-concert">🔦 Modo Show</button>
+        </div>
+
         <h1>✭ Tomorrow X Together ✭</h1>
         <p>De Moa para Moas ♡</p>
     </header>
 
     <main>
-        <article class="post-card">
-            <img src="image1.jpeg" alt="Imagem do TXT">
-
-            <div class="post-conteudo">
-                <span class="tag">#TXT • #MOA</span>
-                <h2>Meu primeiro post</h2>
-                <p class="artigo-autor">Por: Kaholy Sanchez</p>
-                <p class="post-texto">Sejam bem-vindas ao meu novo blog do TXT! Aqui vou estar compartilhando informações deles como músicas, vídeos, shows e muito mais ♡.</p>
-                <button class="btn-like">❤️ <span>0</span></button>
+        <!-- Painel Criativo Interativo -->
+        <section class="creative-hub">
+            <!-- Photocard Holográfico MOA -->
+            <div class="glass-card photocard-wrapper">
+                <div class="section-label">🪪 Seu Photocard MOA</div>
+                <div class="moa-photocard" id="moaPhotocard">
+                    <span class="pc-badge">OFFICIAL MOA PASS ★</span>
+                    <div class="pc-avatar" id="pcAvatar">💙✨</div>
+                    <div class="pc-bias-name" id="pcName">OT5 • Tomorrow X Together</div>
+                    <p class="pc-quote" id="pcQuote">"Juntos hoje, amanhã e para sempre!"</p>
+                    <div class="bias-selector">
+                        <button class="bias-chip active" data-bias="ot5">OT5</button>
+                        <button class="bias-chip" data-bias="soobin">Soobin 🐰</button>
+                        <button class="bias-chip" data-bias="yeonjun">Yeonjun 🦊</button>
+                        <button class="bias-chip" data-bias="beomgyu">Beomgyu 🐻</button>
+                        <button class="bias-chip" data-bias="taehyun">Taehyun 🐿️</button>
+                        <button class="bias-chip" data-bias="hueningkai">Hueningkai 🐧</button>
+                    </div>
+                </div>
             </div>
-        </article>
+
+            <div class="side-stack">
+                <!-- CD Player Giratório -->
+                <div class="glass-card">
+                    <div class="section-label">💿 Rádio Estelar TXT</div>
+                    <div class="cd-player">
+                        <div class="cd-disc" id="cdDisc"></div>
+                        <div class="cd-info">
+                            <div class="cd-title" id="cdTitle">0X1=LOVESONG</div>
+                            <div class="cd-lyric" id="cdLyric">"I know I love you..." 💙</div>
+                        </div>
+                        <div class="cd-controls">
+                            <button class="cd-btn" id="cdPlayBtn" title="Tocar / Pausar">▶</button>
+                            <button class="cd-btn" id="cdNextBtn" title="Trocar faixa">⏭</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pote de Estrelas -->
+                <div class="glass-card">
+                    <div class="section-label">🫙 Pote de Desejos MOA</div>
+                    <form class="wish-form" id="wishForm">
+                        <input type="text" id="wishInput" placeholder="Deixe uma estrela para o TXT..." maxlength="45" required>
+                        <button type="submit">Enviar ★</button>
+                    </form>
+                    <div class="star-jar-box" id="starJarBox"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Botão para criar novos posts no diário -->
+        <section class="composer-box">
+            <button class="btn-new-post" id="toggleComposer">✍️ Escrever nova página no Diário MOA</button>
+            <form class="composer-form" id="composerForm">
+                <div class="composer-row">
+                    <input type="text" id="newTitle" placeholder="Título do post..." required>
+                    <select id="newMood">
+                        <option value="✨ Vibe Mágica">✨ Vibe Mágica</option>
+                        <option value="🎧 Ouvindo em loop">🎧 Ouvindo em loop</option>
+                        <option value="😭 Chorando de emoção">😭 Chorando de emoção</option>
+                        <option value="🔥 Comeback hype">🔥 Comeback hype</option>
+                    </select>
+                </div>
+                <textarea id="newBody" rows="3" placeholder="Compartilhe seus pensamentos, teorias ou músicas favoritas do TXT..." required></textarea>
+                <button type="submit" class="btn-submit-post">Publicar no Blog 💙</button>
+            </form>
+        </section>
+
+        <!-- Feed de Posts -->
+        <section class="posts-container" id="postsContainer"></section>
     </main>
 
     <footer>
-        <p>Feito com 💙 por Kaholy Sanchez</p>
+        <p>Feito com 💙 por Kaholy Sanchez • ✭ Always Together Tomorrow ✭</p>
     </footer>
 
     <script>
-        const botao = document.querySelector(".btn-like");
-        botao.addEventListener("click", botaoClicado);
+        // Imagem reserva caso image1.jpeg não seja encontrada
+        const FALLBACK_IMAGE = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(
+            `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300">
+                <defs>
+                    <linearGradient id="txt" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#8ab8e6"/>
+                        <stop offset="100%" stop-color="#d8b4fe"/>
+                    </linearGradient>
+                </defs>
+                <rect width="300" height="300" fill="url(#txt)"/>
+                <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="22" font-weight="bold">✭ TXT &amp; MOA ✭</text>
+            </svg>`
+        );
 
-        function botaoClicado() {
-            let texto = botao.querySelector("span");
-            texto.textContent = Number(texto.textContent) + 1;
+        function escapeHTML(text) {
+            return String(text ?? "").replace(/[&<>"']/g, m => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            }[m]));
         }
+
+        // 1. Criar estrelas piscando no céu
+        const skyBg = document.getElementById("skyBg");
+        const icons = ["✦", "✭", "✨", "·"];
+        for (let i = 0; i < 26; i++) {
+            const s = document.createElement("span");
+            s.className = "bg-star";
+            s.textContent = icons[i % icons.length];
+            s.style.left = Math.random() * 100 + "%";
+            s.style.top = Math.random() * 100 + "%";
+            s.style.fontSize = (Math.random() * 12 + 10) + "px";
+            s.style.animationDelay = (Math.random() * 3) + "s";
+            skyBg.appendChild(s);
+        }
+
+        // 2. Rastro de estrelinhas ao mover o mouse
+        let lastSparkle = 0;
+        document.addEventListener("pointermove", e => {
+            const now = Date.now();
+            if (now - lastSparkle < 90) return;
+            lastSparkle = now;
+
+            const sp = document.createElement("span");
+            sp.className = "cursor-sparkle";
+            sp.textContent = ["✨", "💙", "★"][Math.floor(Math.random() * 3)];
+            sp.style.left = e.clientX + "px";
+            sp.style.top = e.clientY + "px";
+            document.body.appendChild(sp);
+            setTimeout(() => sp.remove(), 800);
+        });
+
+        // 3. Troca de cores do Moabong
+        const moabongBtns = document.querySelectorAll(".moabong-btn");
+        moabongBtns.forEach(btn => {
+            btn.addEventListener("click", () => {
+                moabongBtns.forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+                document.body.className = btn.dataset.theme;
+            });
+        });
+
+        // 4. Photocard Holográfico 3D + Seletor de Bias
+        const biasProfiles = {
+            ot5: { avatar: "💙✨", name: "OT5 • Tomorrow X Together", quote: '"Juntos hoje, amanhã e para sempre!"', bg: "linear-gradient(135deg, #e0f2fe, #f3e8ff, #fce7f3)" },
+            soobin: { avatar: "🐰🍞", name: "Choi Soobin • Líder", quote: '"Seu porto seguro em forma de sorriso."', bg: "linear-gradient(135deg, #dbeafe, #e0e7ff)" },
+            yeonjun: { avatar: "🦊🔥", name: "Choi Yeonjun • 4th Gen It Boy", quote: '"Brilhando no palco com atitude única."', bg: "linear-gradient(135deg, #ffedd5, #fce7f3)" },
+            beomgyu: { avatar: "🐻🎸", name: "Choi Beomgyu • Energia Solar", quote: '"Espalhando alegria e melodias doces."', bg: "linear-gradient(135deg, #fef3c7, #e0f2fe)" },
+            taehyun: { avatar: "🐿️✨", name: "Kang Taehyun • Voz de Cristal", quote: '"Sinceridade e paixão em cada nota."', bg: "linear-gradient(135deg, #dcfce7, #e0f2fe)" },
+            hueningkai: { avatar: "🐧🎹", name: "Hueningkai • Anjo Musical", quote: '"Doçura e talento em todos os instrumentos."', bg: "linear-gradient(135deg, #f3e8ff, #dbeafe)" }
+        };
+
+        const photocard = document.getElementById("moaPhotocard");
+        photocard.addEventListener("pointermove", e => {
+            const rect = photocard.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width - 0.5;
+            const y = (e.clientY - rect.top) / rect.height - 0.5;
+            photocard.style.transform = `rotateY(${x * 16}deg) rotateX(${-y * 16}deg)`;
+        });
+        photocard.addEventListener("pointerleave", () => {
+            photocard.style.transform = "rotateY(0deg) rotateX(0deg)";
+        });
+
+        document.querySelectorAll(".bias-chip").forEach(chip => {
+            chip.addEventListener("click", () => {
+                document.querySelectorAll(".bias-chip").forEach(c => c.classList.remove("active"));
+                chip.classList.add("active");
+                const info = biasProfiles[chip.dataset.bias];
+                document.getElementById("pcAvatar").textContent = info.avatar;
+                document.getElementById("pcName").textContent = info.name;
+                document.getElementById("pcQuote").textContent = info.quote;
+                photocard.style.background = info.bg;
+            });
+        });
+
+        // 5. CD Player Retrô com Caixinha de Música
+        const playlist = [
+            { title: "0X1=LOVESONG", lyric: '"I know I love you..." 💙', notes: [329.63, 392.00, 493.88, 587.33] },
+            { title: "Deja Vu", lyric: '"Anata to boku no Deja Vu..." ✨', notes: [440.00, 523.25, 659.25, 587.33] },
+            { title: "Blue Hour", lyric: '"Cause of imagination..." 🎡', notes: [392.00, 493.88, 587.33, 783.99] },
+            { title: "Crown", lyric: '"Eoneunal meorie ppuri jaratda..." 👑', notes: [523.25, 659.25, 783.99, 659.25] }
+        ];
+
+        let trackIdx = 0;
+        let playing = false;
+        let audioCtx = null;
+        let musicTimer = null;
+        let step = 0;
+
+        const cdDisc = document.getElementById("cdDisc");
+        const cdPlayBtn = document.getElementById("cdPlayBtn");
+
+        function chimeNote() {
+            if (!playing) return;
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioCtx.state === "suspended") audioCtx.resume();
+
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            const notes = playlist[trackIdx].notes;
+            osc.type = "triangle";
+            osc.frequency.value = notes[step % notes.length];
+            gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.45);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.45);
+            step++;
+        }
+
+        cdPlayBtn.addEventListener("click", () => {
+            playing = !playing;
+            cdPlayBtn.textContent = playing ? "⏸" : "▶";
+            cdDisc.classList.toggle("spinning", playing);
+            if (playing) {
+                chimeNote();
+                musicTimer = setInterval(chimeNote, 500);
+            } else {
+                clearInterval(musicTimer);
+            }
+        });
+
+        document.getElementById("cdNextBtn").addEventListener("click", () => {
+            trackIdx = (trackIdx + 1) % playlist.length;
+            step = 0;
+            document.getElementById("cdTitle").textContent = playlist[trackIdx].title;
+            document.getElementById("cdLyric").textContent = playlist[trackIdx].lyric;
+        });
+
+        // 6. Pote de Desejos Estelares
+        let wishes = JSON.parse(localStorage.getItem("moaWishes")) || [
+            "Show do TXT no Brasil! 🇧🇷",
+            "Sempre juntos OT5 💙"
+        ];
+
+        function renderWishes() {
+            const box = document.getElementById("starJarBox");
+            box.innerHTML = wishes.map(w => `<span class="wish-star-pill">★ ${escapeHTML(w)}</span>`).join("");
+        }
+
+        document.getElementById("wishForm").addEventListener("submit", e => {
+            e.preventDefault();
+            const inp = document.getElementById("wishInput");
+            if (inp.value.trim()) {
+                wishes.unshift(inp.value.trim());
+                wishes = wishes.slice(0, 12);
+                localStorage.setItem("moaWishes", JSON.stringify(wishes));
+                renderWishes();
+                inp.value = "";
+            }
+        });
+
+        // 7. Feed de Posts (Preservando seu post original + novos posts)
+        const initialPosts = [
+            {
+                id: 1,
+                tag: "#TXT • #MOA",
+                mood: "✨ Vibe Mágica",
+                title: "Meu primeiro post",
+                author: "Kaholy Sanchez",
+                text: "Sejam bem-vindas ao meu novo blog do TXT! Aqui vou estar compartilhando informações deles como músicas, vídeos, shows e muito mais ♡.",
+                image: "image1.jpeg",
+                likes: 0
+            }
+        ];
+
+        let blogPosts = JSON.parse(localStorage.getItem("kaholyTxtPosts")) || initialPosts;
+
+        function renderPosts() {
+            const container = document.getElementById("postsContainer");
+            container.innerHTML = "";
+
+            blogPosts.forEach(post => {
+                const article = document.createElement("article");
+                article.className = "post-card";
+
+                if (post.image) {
+                    const img = document.createElement("img");
+                    img.src = post.image;
+                    img.alt = "Imagem do TXT";
+                    img.onerror = function() {
+                        this.onerror = null;
+                        this.src = FALLBACK_IMAGE;
+                    };
+                    article.appendChild(img);
+                }
+
+                const content = document.createElement("div");
+                content.className = "post-conteudo";
+                content.innerHTML = `
+                    <div class="post-meta-top">
+                        <span class="tag">${escapeHTML(post.tag)}</span>
+                        <span class="mood-pill">${escapeHTML(post.mood || "✨ Vibe Mágica")}</span>
+                    </div>
+                    <h2>${escapeHTML(post.title)}</h2>
+                    <p class="artigo-autor">Por: ${escapeHTML(post.author)}</p>
+                    <p class="post-texto">${escapeHTML(post.text)}</p>
+                    <button class="btn-like">❤️ <span>${post.likes}</span></button>
+                `;
+
+                const likeBtn = content.querySelector(".btn-like");
+                likeBtn.addEventListener("click", () => {
+                    post.likes++;
+                    localStorage.setItem("kaholyTxtPosts", JSON.stringify(blogPosts));
+                    likeBtn.querySelector("span").textContent = post.likes;
+
+                    // Efeito de explosão de corações e estrelas
+                    ["💙", "✨", "❤️"].forEach((emoji, idx) => {
+                        const particle = document.createElement("span");
+                        particle.className = "burst-heart";
+                        particle.textContent = emoji;
+                        particle.style.left = (20 + idx * 12) + "px";
+                        particle.style.top = "-4px";
+                        particle.style.setProperty("--dx", ((idx - 1) * 18) + "px");
+                        likeBtn.appendChild(particle);
+                        setTimeout(() => particle.remove(), 850);
+                    });
+                });
+
+                article.appendChild(content);
+                container.appendChild(article);
+            });
+        }
+
+        const toggleComposer = document.getElementById("toggleComposer");
+        const composerForm = document.getElementById("composerForm");
+        toggleComposer.addEventListener("click", () => composerForm.classList.toggle("open"));
+
+        composerForm.addEventListener("submit", e => {
+            e.preventDefault();
+            const title = document.getElementById("newTitle").value.trim();
+            const mood = document.getElementById("newMood").value;
+            const text = document.getElementById("newBody").value.trim();
+
+            if (title && text) {
+                blogPosts.unshift({
+                    id: Date.now(),
+                    tag: "#TXT • #MOA",
+                    mood,
+                    title,
+                    author: "Kaholy Sanchez",
+                    text,
+                    image: null,
+                    likes: 0
+                });
+                localStorage.setItem("kaholyTxtPosts", JSON.stringify(blogPosts));
+                renderPosts();
+                composerForm.reset();
+                composerForm.classList.remove("open");
+            }
+        });
+
+        renderWishes();
+        renderPosts();
     </script>
 </body>
 </html>
